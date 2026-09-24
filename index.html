@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+  <meta name="referrer" content="no-referrer">
+  <title>スマホ判断テスト</title>
+  <style>
+    body{font-family:system-ui,-apple-system,sans-serif;max-width:680px;margin:60px auto;padding:0 20px;line-height:1.7;color:#1f2937}
+    .card{border:1px solid #d1d5db;border-radius:16px;padding:24px}
+    .muted{color:#4b5563}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1 id="title">スマホ判断テストを準備しています</h1>
+    <p id="status">研究画面を確認しています。</p>
+    <p class="muted">氏名・メールアドレス・電話番号などの個人情報は入力しないでください。</p>
+  </main>
+
+  <script>
+    "use strict";
+
+    // Launch-time configuration. Leave empty until the approved Typeform study
+    // exists and has passed preview/privacy checks.
+    const TYPEFORM_URL = "";
+
+    const title = document.getElementById("title");
+    const status = document.getElementById("status");
+    const source = new URLSearchParams(window.location.search);
+
+    function clean(value, maxLength) {
+      if (!value) return "";
+      const normalized = String(value).trim();
+      if (!/^[A-Za-z0-9_-]+$/.test(normalized)) return "";
+      return normalized.slice(0, maxLength);
+    }
+
+    function randomArm() {
+      if (!window.crypto || !window.crypto.getRandomValues) {
+        throw new Error("Secure random assignment is unavailable.");
+      }
+      const value = new Uint32Array(1);
+      window.crypto.getRandomValues(value);
+      return (value[0] & 1) === 0 ? "A" : "B";
+    }
+
+    function fail(message) {
+      title.textContent = "この研究は現在開始できません";
+      status.textContent = message;
+    }
+
+    try {
+      if (!TYPEFORM_URL) {
+        fail("回答フォームがまだ有効化されていません。Prolificの研究画面に戻ってください。");
+      } else {
+        const prolificPid = clean(source.get("PROLIFIC_PID"), 80);
+        const studyId = clean(source.get("STUDY_ID"), 80);
+        const sessionId = clean(source.get("SESSION_ID"), 80);
+
+        if (!prolificPid) {
+          fail("Prolificの参加者IDを確認できませんでした。研究画面に戻ってください。");
+        } else {
+          const destination = new URL(TYPEFORM_URL);
+          destination.searchParams.set("prolific_pid", prolificPid);
+          if (studyId) destination.searchParams.set("study_id", studyId);
+          if (sessionId) destination.searchParams.set("session_id", sessionId);
+          destination.searchParams.set("arm", randomArm());
+
+          title.textContent = "研究画面へ移動します";
+          status.textContent = "数秒で移動しない場合は、Prolificの研究画面に戻ってください。";
+          window.location.replace(destination.toString());
+        }
+      }
+    } catch (error) {
+      fail("研究画面を開始できませんでした。Prolificの研究画面に戻ってください。");
+    }
+  </script>
+</body>
+</html>
