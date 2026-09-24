@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
   <meta name="referrer" content="no-referrer">
-  <title>スマホ判断テスト</title>
+  <title>&#12473;&#12510;&#12507;&#21028;&#26029;&#12486;&#12473;&#12488;</title>
   <style>
     body{font-family:system-ui,-apple-system,sans-serif;max-width:680px;margin:60px auto;padding:0 20px;line-height:1.7;color:#1f2937}
     .card{border:1px solid #d1d5db;border-radius:16px;padding:24px}
@@ -14,16 +14,14 @@
 </head>
 <body>
   <main class="card">
-    <h1 id="title">スマホ判断テストを準備しています</h1>
-    <p id="status">研究画面を確認しています。</p>
-    <p class="muted">氏名・メールアドレス・電話番号などの個人情報は入力しないでください。</p>
+    <h1 id="title">&#12473;&#12510;&#12507;&#21028;&#26029;&#12486;&#12473;&#12488;&#12434;&#28310;&#20633;&#12375;&#12390;&#12356;&#12414;&#12377;</h1>
+    <p id="status">&#30740;&#31350;&#30011;&#38754;&#12434;&#30906;&#35469;&#12375;&#12390;&#12356;&#12414;&#12377;&#12290;</p>
+    <p class="muted">&#27663;&#21517;&#12539;&#12513;&#12540;&#12523;&#12450;&#12489;&#12524;&#12473;&#12539;&#38651;&#35441;&#30058;&#21495;&#12394;&#12393;&#12398;&#20491;&#20154;&#24773;&#22577;&#12399;&#20837;&#21147;&#12375;&#12394;&#12356;&#12391;&#12367;&#12384;&#12373;&#12356;&#12290;</p>
   </main>
 
   <script>
     "use strict";
 
-    // Launch-time configuration. Leave empty until the approved Typeform study
-    // exists and has passed preview/privacy checks.
     const TYPEFORM_URL = "";
 
     const title = document.getElementById("title");
@@ -47,20 +45,20 @@
     }
 
     function fail(message) {
-      title.textContent = "この研究は現在開始できません";
+      title.textContent = "\u3053\u306e\u7814\u7a76\u306f\u73fe\u5728\u958b\u59cb\u3067\u304d\u307e\u305b\u3093";
       status.textContent = message;
     }
 
     try {
       if (!TYPEFORM_URL) {
-        fail("回答フォームがまだ有効化されていません。Prolificの研究画面に戻ってください。");
+        fail("\u56de\u7b54\u30d5\u30a9\u30fc\u30e0\u304c\u307e\u3060\u6709\u52b9\u5316\u3055\u308c\u3066\u3044\u307e\u305b\u3093\u3002Prolific\u306e\u7814\u7a76\u753b\u9762\u306b\u623b\u3063\u3066\u304f\u3060\u3055\u3044\u3002");
       } else {
         const prolificPid = clean(source.get("PROLIFIC_PID"), 80);
         const studyId = clean(source.get("STUDY_ID"), 80);
         const sessionId = clean(source.get("SESSION_ID"), 80);
 
         if (!prolificPid) {
-          fail("Prolificの参加者IDを確認できませんでした。研究画面に戻ってください。");
+          fail("Prolific\u306e\u53c2\u52a0\u8005ID\u3092\u78ba\u8a8d\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002\u7814\u7a76\u753b\u9762\u306b\u623b\u3063\u3066\u304f\u3060\u3055\u3044\u3002");
         } else {
           const destination = new URL(TYPEFORM_URL);
           const typeformParams = new URLSearchParams();
@@ -70,14 +68,15 @@
           typeformParams.set("arm", randomArm());
           destination.hash = typeformParams.toString();
 
-          title.textContent = "研究画面へ移動します";
-          status.textContent = "数秒で移動しない場合は、Prolificの研究画面に戻ってください。";
+          title.textContent = "\u7814\u7a76\u753b\u9762\u3078\u79fb\u52d5\u3057\u307e\u3059";
+          status.textContent = "\u6570\u79d2\u3067\u79fb\u52d5\u3057\u306a\u3044\u5834\u5408\u306f\u3001Prolific\u306e\u7814\u7a76\u753b\u9762\u306b\u623b\u3063\u3066\u304f\u3060\u3055\u3044\u3002";
           window.location.replace(destination.toString());
         }
       }
     } catch (error) {
-      fail("研究画面を開始できませんでした。Prolificの研究画面に戻ってください。");
+      fail("\u7814\u7a76\u753b\u9762\u3092\u958b\u59cb\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002Prolific\u306e\u7814\u7a76\u753b\u9762\u306b\u623b\u3063\u3066\u304f\u3060\u3055\u3044\u3002");
     }
   </script>
 </body>
 </html>
+
