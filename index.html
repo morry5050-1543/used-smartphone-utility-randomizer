@@ -63,10 +63,12 @@
           fail("Prolificの参加者IDを確認できませんでした。研究画面に戻ってください。");
         } else {
           const destination = new URL(TYPEFORM_URL);
-          destination.searchParams.set("prolific_pid", prolificPid);
-          if (studyId) destination.searchParams.set("study_id", studyId);
-          if (sessionId) destination.searchParams.set("session_id", sessionId);
-          destination.searchParams.set("arm", randomArm());
+          const typeformParams = new URLSearchParams();
+          typeformParams.set("prolific_pid", prolificPid);
+          if (studyId) typeformParams.set("study_id", studyId);
+          if (sessionId) typeformParams.set("session_id", sessionId);
+          typeformParams.set("arm", randomArm());
+          destination.hash = typeformParams.toString();
 
           title.textContent = "研究画面へ移動します";
           status.textContent = "数秒で移動しない場合は、Prolificの研究画面に戻ってください。";
